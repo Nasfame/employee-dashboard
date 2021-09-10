@@ -1,8 +1,8 @@
 import axios from 'axios'
 
 const api = (method = 'GET', body, params = null) => {
-  // const url = 'https://dashboard-employee.herokuapp.com/employee'
-  let url = 'http://localhost:3237/employee'
+  let url = 'https://dashboard-employee.herokuapp.com/employee'
+  // let url = 'http://localhost:3237/employee'
   if (params) url += `/${params}`
   const options = {
     method,
