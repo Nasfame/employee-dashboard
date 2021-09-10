@@ -1,9 +1,17 @@
 import { useState } from 'react'
 import { Form, Button } from 'react-bootstrap'
-import { v4 as uuidv4 } from 'uuid'
+import { v4 as uuidv4, parse } from 'uuid'
+
+const uID = () => {
+  let uuid = uuidv4()
+  let parsedUuid = parse(uuid)
+  let buffer = Buffer.from(parsedUuid)
+  let randInt = buffer.readUInt32BE(0)
+  return randInt
+}
 
 const EmployeeForm = ({ employee, handleOnSubmit }) => {
-  const emp = employee
+  const [emp, setEmp] = useState(employee ?? {})
 
   const [errorMsg, setErrorMsg] = useState('')
 
@@ -19,10 +27,10 @@ const EmployeeForm = ({ employee, handleOnSubmit }) => {
 
     if (allFieldsFilled) {
       const employee = {
-        id: uuidv4(),
+        id: emp.id ?? uID(),
         name: emp.name,
         designation: emp.designation,
-        date: new Date(),
+        date: emp.date ?? new Date(),
       }
       handleOnSubmit(employee)
     } else errorMsg = 'Please fill out all the fields.'
@@ -32,7 +40,10 @@ const EmployeeForm = ({ employee, handleOnSubmit }) => {
 
   const inputChange = event => {
     const { name, value } = event.target
-    emp[name] = value
+    setEmp(prevState => ({
+      ...prevState,
+      [name]: value,
+    }))
   }
 
   return (

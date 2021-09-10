@@ -1,16 +1,19 @@
 import { useContext } from 'react'
 import { useParams } from 'react-router-dom'
+import api from '../api.js'
 import EmployeeContext from '../context/EmployeeContext'
 import EmployeeForm from './EmployeeForm'
 
 const EditEmployee = ({ history }) => {
-  const { emps, setEmps } = useContext(EmployeeContext)
-  const { id } = useParams()
-  const empToEdit = emps.find(emp => emp.id === id)
+  const { emps, setEmps, api } = useContext(EmployeeContext)
+  const { id } = useParams() // eslint-disable-next-line
+  const empToEdit = emps.find(emp => emp.id == id) //=== doesnt work as localStorage stores as string.
 
   const handleOnSubmit = emp => {
-    const filteredEmps = emps.filter(emp => emp.id !== id)
+    // eslint-disable-next-line
+    const filteredEmps = emps.filter(emp => emp.id != id)
     setEmps([emp, ...filteredEmps])
+    api('PATCH', emp, id)
     history.push('/')
   }
 

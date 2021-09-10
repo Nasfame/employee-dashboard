@@ -3,10 +3,11 @@ import EmployeeContext from '../context/EmployeeContext'
 import EmployeeForm from './EmployeeForm'
 
 const AddEmployee = ({ history }) => {
-  const { emps, setEmps } = useContext(EmployeeContext)
+  const { emps, setEmps, api } = useContext(EmployeeContext)
 
-  const handleOnSubmit = emp => {
-    setEmps([...emps, emp])
+  const handleOnSubmit = async emp => {
+    await setEmps([...emps, emp])
+    api('POST', emp)
     history.push('/')
   }
 
