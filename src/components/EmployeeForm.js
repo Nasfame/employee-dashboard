@@ -11,13 +11,13 @@ const uID = () => {
 }
 
 const EmployeeForm = ({ employee, handleOnSubmit }) => {
-  const [emp, setEmp] = useState(employee ?? {})
+  const [emp, setEmp] = useState(employee ?? {name:'',designation:''})
 
   const [errorMsg, setErrorMsg] = useState('')
 
   const onSubmit = event => {
     event.preventDefault()
-    const values = [emp.name, emp.designation]
+    const values = Object.values(emp)
     let errorMsg = ''
 
     const allFieldsFilled = values.every(field => {
